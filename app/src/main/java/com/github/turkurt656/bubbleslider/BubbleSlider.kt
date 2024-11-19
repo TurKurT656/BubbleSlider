@@ -32,12 +32,12 @@ fun BubbleSlider(
     value: Float,
     onValueChange: (Float) -> Unit,
     modifier: Modifier = Modifier,
+    valueRange: ClosedFloatingPointRange<Float> = 0f..100f,
     progressThickness: Dp = 6.dp,
     selectorSize: Dp = 12.dp,
-    maxValue: Float = 100f,
 ) {
     val componentHeight = max(progressThickness, selectorSize)
-    val allowedValue = value.coerceIn(0f, maxValue)
+    val allowedValue = value.coerceIn(valueRange.start, valueRange.endInclusive)
 
     var componentWidth = 0f
 
@@ -67,8 +67,8 @@ fun BubbleSlider(
                     orientation = Orientation.Horizontal,
                     state = rememberDraggableState { delta ->
                         velocity = delta.coerceIn(-8f, 8f) * 0.3f
-                        val deltaAsValue = (delta * maxValue / componentWidth)
-                        onValueChange((value + deltaAsValue).coerceIn(0f, maxValue))
+                        val deltaAsValue = (delta * valueRange.range / componentWidth)
+                        onValueChange((value + deltaAsValue).coerceIn(valueRange.start, valueRange.endInclusive))
                     },
                     onDragStopped = {
                         isPressed = false
@@ -81,7 +81,7 @@ fun BubbleSlider(
                 val canvasWidth = size.width
                 val canvasHeight = size.height
                 componentWidth = canvasWidth
-                val progressWidth = (allowedValue / maxValue) * canvasWidth
+                val progressWidth = ((allowedValue - valueRange.start) / valueRange.range) * canvasWidth
 
                 drawLine(
                     start = Offset(x = 0f, y = canvasHeight / 2),

@@ -34,16 +34,18 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     var value by remember {
-                        mutableFloatStateOf(50f)
+                        mutableFloatStateOf(70f)
                     }
 
                     val modifier = Modifier
                         .padding(24.dp)
                         .width(220.dp)
 
+                    val valueRange = 60f..100f
+
                     Slider(
                         modifier = modifier,
-                        valueRange = 0f..100f,
+                        valueRange = valueRange,
                         enabled = true,
                         colors = SliderDefaults.colors(
                             thumbColor = Blue,
@@ -59,6 +61,7 @@ class MainActivity : ComponentActivity() {
 
                     BubbleSlider(
                         modifier = modifier,
+                        valueRange = valueRange,
                         value = value,
                         onValueChange = { value = it },
                     )
