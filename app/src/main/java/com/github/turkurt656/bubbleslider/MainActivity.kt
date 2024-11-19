@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .fillMaxSize()
                         .background(Purple40)
+                        .padding(top = 48.dp)
                 ) {
 
                     var value by remember {
@@ -38,7 +39,6 @@ class MainActivity : ComponentActivity() {
 
                     val modifier = Modifier
                         .padding(24.dp)
-                        .padding(top = 48.dp)
                         .width(220.dp)
 
                     Slider(
@@ -55,6 +55,12 @@ class MainActivity : ComponentActivity() {
                         onValueChangeFinished = {
                             // action to VM
                         }
+                    )
+
+                    BubbleSlider(
+                        modifier = modifier,
+                        value = value,
+                        onValueChange = { value = it },
                     )
                 }
             }
