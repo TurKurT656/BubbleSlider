@@ -1,4 +1,4 @@
-package com.github.turkurt656.bubbleslider
+package com.github.turkurt656.bubbleslider.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.github.turkurt656.bubbleslider.BubbleSlider
 import com.github.turkurt656.bubbleslider.ui.theme.*
 import com.github.turkurt656.bubbleslider.ui.theme.BubbleSliderTheme
 
