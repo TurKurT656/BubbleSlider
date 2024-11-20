@@ -31,15 +31,13 @@ fun BubbleSlider(
     onValueChange: (Float) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    valueRange: ClosedFloatingPointRange<Float> = 0f..100f,
+    valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
     onValueChangeFinished: (() -> Unit)? = null,
     colors: BubbleSliderColors = BubbleSliderDefaults.colors(),
     trackThickness: Dp = 6.dp,
     thumbSize: Dp = 12.dp,
 ) {
     val componentHeight = max(trackThickness, thumbSize)
-    val allowedValue = value.coerceIn(valueRange.start, valueRange.endInclusive)
-
     var componentWidth = 0f
 
     Box(modifier = modifier.height(componentHeight)) {
@@ -60,6 +58,8 @@ fun BubbleSlider(
             ),
             label = "Circle Size Animation",
         )
+
+        val allowedValue = value.coerceIn(valueRange.start, valueRange.endInclusive)
 
         Canvas(
             modifier = Modifier
