@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,7 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.github.turkurt656.bubbleslider.BubbleSlider
-import com.github.turkurt656.bubbleslider.ui.theme.*
+import com.github.turkurt656.bubbleslider.BubbleSliderDefaults
 import com.github.turkurt656.bubbleslider.ui.theme.BubbleSliderTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,7 +29,6 @@ class MainActivity : ComponentActivity() {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Purple40)
                         .padding(top = 48.dp)
                 ) {
 
@@ -48,11 +46,7 @@ class MainActivity : ComponentActivity() {
                         modifier = modifier,
                         valueRange = valueRange,
                         enabled = true,
-                        colors = SliderDefaults.colors(
-                            thumbColor = Blue,
-                            activeTrackColor = Gray1,
-                            inactiveTrackColor = Gray2,
-                        ),
+                        colors = SliderDefaults.colors(),
                         value = value,
                         onValueChange = { value = it },
                         onValueChangeFinished = {
@@ -63,6 +57,7 @@ class MainActivity : ComponentActivity() {
                     BubbleSlider(
                         modifier = modifier,
                         valueRange = valueRange,
+                        colors = BubbleSliderDefaults.colors(),
                         value = value,
                         onValueChange = { value = it },
                     )

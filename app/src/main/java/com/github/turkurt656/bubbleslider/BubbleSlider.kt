@@ -20,12 +20,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
-import com.github.turkurt656.bubbleslider.ui.theme.*
 
 @Composable
 fun BubbleSlider(
@@ -33,6 +31,7 @@ fun BubbleSlider(
     onValueChange: (Float) -> Unit,
     modifier: Modifier = Modifier,
     valueRange: ClosedFloatingPointRange<Float> = 0f..100f,
+    colors: BubbleSliderColors = BubbleSliderDefaults.colors(),
     progressThickness: Dp = 6.dp,
     selectorSize: Dp = 12.dp,
 ) {
@@ -86,23 +85,19 @@ fun BubbleSlider(
                 drawLine(
                     start = Offset(x = 0f, y = canvasHeight / 2),
                     end = Offset(x = canvasWidth, y = canvasHeight / 2),
-                    brush = Brush.horizontalGradient(
-                        colors = listOf(Gray1, Gray2),
-                        startX = 0f,
-                        endX = canvasWidth,
-                    ),
+                    color = colors.trackColor(true, false),
                     strokeWidth = progressThickness.toPx(),
                     cap = StrokeCap.Round
                 )
                 drawLine(
                     start = Offset(x = 0f, y = canvasHeight / 2),
                     end = Offset(x = progressWidth, y = canvasHeight / 2),
-                    color = Blue,
+                    color = colors.trackColor(true, true),
                     strokeWidth = progressThickness.toPx(),
                     cap = StrokeCap.Round
                 )
                 drawDrop(
-                    color = Blue,
+                    color = colors.thumbColor(true),
                     center = Offset(x = progressWidth, y = canvasHeight / 2),
                     radius = circleRadius.toPx(),
                     velocity = velocityAnimation.value,
