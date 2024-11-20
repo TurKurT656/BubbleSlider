@@ -32,10 +32,10 @@ fun BubbleSlider(
     modifier: Modifier = Modifier,
     valueRange: ClosedFloatingPointRange<Float> = 0f..100f,
     colors: BubbleSliderColors = BubbleSliderDefaults.colors(),
-    progressThickness: Dp = 6.dp,
-    selectorSize: Dp = 12.dp,
+    trackThickness: Dp = 6.dp,
+    thumbSize: Dp = 12.dp,
 ) {
-    val componentHeight = max(progressThickness, selectorSize)
+    val componentHeight = max(trackThickness, thumbSize)
     val allowedValue = value.coerceIn(valueRange.start, valueRange.endInclusive)
 
     var componentWidth = 0f
@@ -51,7 +51,7 @@ fun BubbleSlider(
         }
 
         val circleRadius by animateDpAsState(
-            targetValue = if (isPressed) (selectorSize / 2 * 1.2f) else selectorSize / 2,
+            targetValue = if (isPressed) (thumbSize / 2 * 1.2f) else thumbSize / 2,
             animationSpec = spring(
                 dampingRatio = Spring.DampingRatioHighBouncy,
                 stiffness = Spring.StiffnessLow,
@@ -86,14 +86,14 @@ fun BubbleSlider(
                     start = Offset(x = 0f, y = canvasHeight / 2),
                     end = Offset(x = canvasWidth, y = canvasHeight / 2),
                     color = colors.trackColor(true, false),
-                    strokeWidth = progressThickness.toPx(),
+                    strokeWidth = trackThickness.toPx(),
                     cap = StrokeCap.Round
                 )
                 drawLine(
                     start = Offset(x = 0f, y = canvasHeight / 2),
                     end = Offset(x = progressWidth, y = canvasHeight / 2),
                     color = colors.trackColor(true, true),
-                    strokeWidth = progressThickness.toPx(),
+                    strokeWidth = trackThickness.toPx(),
                     cap = StrokeCap.Round
                 )
                 drawDrop(
