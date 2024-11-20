@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -24,6 +25,9 @@ import com.github.turkurt656.bubbleslider.BubbleSliderDefaults
 import com.github.turkurt656.bubbleslider.ui.theme.BubbleSliderTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -57,7 +61,7 @@ class MainActivity : ComponentActivity() {
                         value = value,
                         onValueChange = { value = it },
                         onValueChangeFinished = {
-                            // action to VM
+                            viewModel.onValueChange("Slider", value)
                         }
                     )
 
@@ -68,6 +72,9 @@ class MainActivity : ComponentActivity() {
                         colors = BubbleSliderDefaults.colors(),
                         value = value,
                         onValueChange = { value = it },
+                        onValueChangeFinished = {
+                            viewModel.onValueChange("BubbleSlider", value)
+                        }
                     )
 
                     Button(

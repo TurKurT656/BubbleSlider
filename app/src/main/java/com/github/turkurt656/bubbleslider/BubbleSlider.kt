@@ -32,6 +32,7 @@ fun BubbleSlider(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     valueRange: ClosedFloatingPointRange<Float> = 0f..100f,
+    onValueChangeFinished: (() -> Unit)? = null,
     colors: BubbleSliderColors = BubbleSliderDefaults.colors(),
     trackThickness: Dp = 6.dp,
     thumbSize: Dp = 12.dp,
@@ -74,6 +75,7 @@ fun BubbleSlider(
                     onDragStopped = {
                         isPressed = false
                         velocity = 0f
+                        onValueChangeFinished?.invoke()
                     },
                     onDragStarted = { isPressed = true },
                     startDragImmediately = true,
