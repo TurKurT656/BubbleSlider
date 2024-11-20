@@ -3,6 +3,7 @@ package com.github.turkurt656.bubbleslider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 
 object BubbleSliderDefaults {
 
@@ -15,9 +16,13 @@ object BubbleSliderDefaults {
                     thumbColor = MaterialTheme.colorScheme.primary,
                     activeTrackColor = MaterialTheme.colorScheme.primary,
                     inactiveTrackColor = MaterialTheme.colorScheme.secondaryContainer,
-                    disabledThumbColor = MaterialTheme.colorScheme.onSurface,
-                    disabledActiveTrackColor = MaterialTheme.colorScheme.onSurface,
-                    disabledInactiveTrackColor = MaterialTheme.colorScheme.onSurface,
+                    disabledThumbColor = MaterialTheme.colorScheme.onSurface
+                        .copy(alpha = 0.38f)
+                        .compositeOver(MaterialTheme.colorScheme.surface),
+                    disabledActiveTrackColor = MaterialTheme.colorScheme.onSurface
+                        .copy(alpha = 0.38f),
+                    disabledInactiveTrackColor = MaterialTheme.colorScheme.onSurface
+                        .copy(alpha = 0.12f),
                 ).also {
                     _cachedColor = it
                 }

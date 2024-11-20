@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -36,6 +39,10 @@ class MainActivity : ComponentActivity() {
                         mutableFloatStateOf(70f)
                     }
 
+                    var enabled by remember {
+                        mutableStateOf(true)
+                    }
+
                     val modifier = Modifier
                         .padding(24.dp)
                         .width(220.dp)
@@ -45,7 +52,7 @@ class MainActivity : ComponentActivity() {
                     Slider(
                         modifier = modifier,
                         valueRange = valueRange,
-                        enabled = true,
+                        enabled = enabled,
                         colors = SliderDefaults.colors(),
                         value = value,
                         onValueChange = { value = it },
@@ -57,10 +64,19 @@ class MainActivity : ComponentActivity() {
                     BubbleSlider(
                         modifier = modifier,
                         valueRange = valueRange,
+                        enabled = enabled,
                         colors = BubbleSliderDefaults.colors(),
                         value = value,
                         onValueChange = { value = it },
                     )
+
+                    Button(
+                        modifier = modifier,
+                        onClick = {
+                            enabled = !enabled
+                        }) {
+                        Text(if (enabled) "Disable" else "Enable")
+                    }
                 }
             }
         }

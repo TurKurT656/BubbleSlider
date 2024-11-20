@@ -30,6 +30,7 @@ fun BubbleSlider(
     value: Float,
     onValueChange: (Float) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     valueRange: ClosedFloatingPointRange<Float> = 0f..100f,
     colors: BubbleSliderColors = BubbleSliderDefaults.colors(),
     trackThickness: Dp = 6.dp,
@@ -63,6 +64,7 @@ fun BubbleSlider(
             modifier = Modifier
                 .fillMaxSize()
                 .draggable(
+                    enabled = enabled,
                     orientation = Orientation.Horizontal,
                     state = rememberDraggableState { delta ->
                         velocity = delta.coerceIn(-8f, 8f) * 0.3f
@@ -85,19 +87,19 @@ fun BubbleSlider(
                 drawLine(
                     start = Offset(x = 0f, y = canvasHeight / 2),
                     end = Offset(x = canvasWidth, y = canvasHeight / 2),
-                    color = colors.trackColor(true, false),
+                    color = colors.trackColor(enabled, false),
                     strokeWidth = trackThickness.toPx(),
                     cap = StrokeCap.Round
                 )
                 drawLine(
                     start = Offset(x = 0f, y = canvasHeight / 2),
                     end = Offset(x = progressWidth, y = canvasHeight / 2),
-                    color = colors.trackColor(true, true),
+                    color = colors.trackColor(enabled, true),
                     strokeWidth = trackThickness.toPx(),
                     cap = StrokeCap.Round
                 )
                 drawDrop(
-                    color = colors.thumbColor(true),
+                    color = colors.thumbColor(enabled),
                     center = Offset(x = progressWidth, y = canvasHeight / 2),
                     radius = circleRadius.toPx(),
                     velocity = velocityAnimation.value,
