@@ -14,14 +14,14 @@ internal fun DrawScope.drawBubble(
     value: Float,
     valueRange: ClosedFloatingPointRange<Float>,
     progress: Float,
-    thumbRadius: Dp,
+    bubbleRadius: Dp,
     colors: BubbleSliderColors,
 ) {
     val progressWidth =
         ((value - valueRange.start) / valueRange.range) * size.width
 
     val bubbleMultiplier = 4 - 2 * abs(sin(progress * Math.PI.toFloat()))
-    val bubbleSize: Dp = thumbRadius / bubbleMultiplier
+    val bubbleSize: Dp = bubbleRadius / bubbleMultiplier
 
     drawCircle(
         color = colors.thumbColor.copy(alpha = 1 - progress),
