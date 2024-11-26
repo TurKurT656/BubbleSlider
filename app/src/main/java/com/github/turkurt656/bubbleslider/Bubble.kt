@@ -11,24 +11,20 @@ internal const val BUBBLE_INTERVAL = 1_000L
 internal const val BUBBLE_ANIMATION_DURATION = 3_000L
 
 internal fun DrawScope.drawBubble(
-    value: Float,
-    valueRange: ClosedFloatingPointRange<Float>,
-    progress: Float,
+    sliderProgress: Float,
+    bubbleProgress: Float,
     bubbleRadius: Dp,
     colors: BubbleSliderColors,
 ) {
-    val progressWidth =
-        ((value - valueRange.start) / valueRange.range) * size.width
-
-    val bubbleMultiplier = 4 - 2 * abs(sin(progress * Math.PI.toFloat()))
+    val bubbleMultiplier = 4 - 2 * abs(sin(bubbleProgress * Math.PI.toFloat()))
     val bubbleSize: Dp = bubbleRadius / bubbleMultiplier
 
     drawCircle(
-        color = colors.thumbColor.copy(alpha = 1 - progress),
+        color = colors.thumbColor.copy(alpha = 1 - bubbleProgress),
         radius = bubbleSize.toPx(),
         center = Offset(
-            x = progressWidth + 10 * sin(progress * Math.PI * 2).toFloat(),
-            y = -(36.dp * progress).toPx(),
+            x = sliderProgress + 10 * sin(bubbleProgress * Math.PI * 2).toFloat(),
+            y = -(36.dp * bubbleProgress).toPx(),
         ),
     )
 }

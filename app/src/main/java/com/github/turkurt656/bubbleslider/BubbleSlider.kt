@@ -97,8 +97,7 @@ fun BubbleSlider(
                     .fillMaxSize(),
                 onDraw = {
                     drawBubble(
-                        allowedValue,
-                        valueRange,
+                        calculateProgress(allowedValue, valueRange),
                         progress.value,
                         thumbSize / 2,
                         colors,
@@ -132,8 +131,7 @@ fun BubbleSlider(
                 val canvasWidth = size.width
                 val canvasHeight = size.height
                 componentWidth = canvasWidth
-                val progressWidth =
-                    ((allowedValue - valueRange.start) / valueRange.range) * canvasWidth
+                val progress = calculateProgress(allowedValue, valueRange)
 
                 drawLine(
                     start = Offset(x = 0f, y = canvasHeight / 2),
@@ -144,14 +142,14 @@ fun BubbleSlider(
                 )
                 drawLine(
                     start = Offset(x = 0f, y = canvasHeight / 2),
-                    end = Offset(x = progressWidth, y = canvasHeight / 2),
+                    end = Offset(x = progress, y = canvasHeight / 2),
                     color = colors.trackColor(enabled, true),
                     strokeWidth = trackThickness.toPx(),
                     cap = StrokeCap.Round
                 )
                 drawDrop(
                     color = colors.thumbColor(enabled),
-                    center = Offset(x = progressWidth, y = canvasHeight / 2),
+                    center = Offset(x = progress, y = canvasHeight / 2),
                     radius = thumbRadius.toPx(),
                     velocity = velocityAnimation.value,
                 )
