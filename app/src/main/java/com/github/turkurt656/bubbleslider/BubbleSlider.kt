@@ -81,9 +81,9 @@ fun BubbleSlider(
         // Bubbles
         repeat(bubbleCount) { index ->
 
-            val progress = remember(index) { Animatable(0f) }
+            val bubbleProgress = remember(index) { Animatable(0f) }
             LaunchedEffect(index) {
-                progress.animateTo(
+                bubbleProgress.animateTo(
                     targetValue = 1f,
                     animationSpec = tween(
                         BUBBLE_ANIMATION_DURATION.toInt(),
@@ -93,12 +93,11 @@ fun BubbleSlider(
             }
 
             Canvas(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 onDraw = {
                     drawBubble(
                         calculateProgress(allowedValue, valueRange),
-                        progress.value,
+                        bubbleProgress.value,
                         thumbSize / 2,
                         colors,
                     )
