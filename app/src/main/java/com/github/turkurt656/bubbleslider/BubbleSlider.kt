@@ -67,13 +67,13 @@ fun BubbleSlider(
             velocityAnimation.animateTo(velocity)
         }
 
-        val circleRadius by animateDpAsState(
-            targetValue = if (isPressed) (thumbSize / 2 * 1.4f) else thumbSize / 2,
+        val thumbRadius by animateDpAsState(
+            targetValue = if (isPressed) (thumbSize / 1.5f) else thumbSize / 2,
             animationSpec = spring(
                 dampingRatio = Spring.DampingRatioHighBouncy,
-                stiffness = Spring.StiffnessLow,
+                stiffness = Spring.StiffnessHigh,
             ),
-            label = "Circle Size Animation",
+            label = "Thumb Size Animation",
         )
 
         val allowedValue = value.coerceIn(valueRange.start, valueRange.endInclusive)
@@ -152,7 +152,7 @@ fun BubbleSlider(
                 drawDrop(
                     color = colors.thumbColor(enabled),
                     center = Offset(x = progressWidth, y = canvasHeight / 2),
-                    radius = circleRadius.toPx(),
+                    radius = thumbRadius.toPx(),
                     velocity = velocityAnimation.value,
                 )
             }
