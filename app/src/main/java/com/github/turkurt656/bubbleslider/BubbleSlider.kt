@@ -71,7 +71,7 @@ fun BubbleSlider(
             targetValue = if (isPressed) (thumbSize / 1.5f) else thumbSize / 2,
             animationSpec = spring(
                 dampingRatio = Spring.DampingRatioHighBouncy,
-                stiffness = Spring.StiffnessHigh,
+                stiffness = Spring.StiffnessLow,
             ),
             label = "Thumb Size Animation",
         )
