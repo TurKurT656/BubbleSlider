@@ -2,6 +2,7 @@ package com.github.turkurt656.bubbleslider
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
@@ -18,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -61,10 +63,19 @@ fun BubbleSlider(
             }
         }
 
+        var lastDragTime by remember { mutableLongStateOf(0L) }
         var velocity by remember { mutableFloatStateOf(0f) }
-        val velocityAnimation = remember { Animatable(initialValue = 0f) }
+        val velocityAnimation = remember { Animatable(initialValue = velocity) }
         LaunchedEffect(key1 = velocity) {
-            velocityAnimation.animateTo(velocity)
+            velocityAnimation.animateTo(
+                velocity,
+                animationSpec = tween(300, easing = LinearEasing)
+            )
+            if (velocity == 0f) return@LaunchedEffect
+            velocityAnimation.animateTo(
+                0f,
+                animationSpec = tween(200, easing = LinearEasing)
+            )
         }
 
         val thumbRadius by animateDpAsState(
@@ -112,7 +123,13 @@ fun BubbleSlider(
                     enabled = enabled,
                     orientation = Orientation.Horizontal,
                     state = rememberDraggableState { delta ->
-                        velocity = delta.coerceIn(-8f, 8f) * 0.3f
+                        val currentTime = System.currentTimeMillis()
+                        val timeSinceLastDrag = currentTime - lastDragTime
+                        // Ignore very rapid changes
+                        if (timeSinceLastDrag > 100L) {
+                            velocity = delta.coerceIn(-8f, 8f) * 0.5f
+                            lastDragTime = currentTime
+                        }
                         val deltaAsValue = (delta * valueRange.range / componentWidth)
                         val newValue = (value + deltaAsValue)
                             .coerceIn(valueRange.start, valueRange.endInclusive)
