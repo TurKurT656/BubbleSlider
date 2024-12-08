@@ -1,7 +1,6 @@
 package com.github.turkurt656.bubbleslider
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -11,19 +10,19 @@ import kotlin.math.abs
 import kotlin.math.sin
 import kotlin.random.Random
 
-internal const val BUBBLE_INTERVAL_MIN = 300L
-internal const val BUBBLE_INTERVAL_MAX = 1_500L
-internal const val BUBBLE_ANIMATION_DURATION = 3_000L
-
-@Stable
 internal data class BubbleProperties(
-    val radius: Dp,
-    val flyHeight: Dp,
+    val sizeProperties: SizeProperties,
     val waveProperties: WaveProperties,
     val colors: BubbleSliderColors,
 ) {
 
-    @Stable
+    data class SizeProperties(
+        val radius: Dp,
+        val flyHeight: Dp,
+        val bubbleSizeBaseDivisor: Int,
+        val bubbleSizeOscillationFactor: Int,
+    )
+
     data class WaveProperties(
         val waveAmplitude: Int,
         val waveLength: Double,
@@ -38,11 +37,15 @@ internal fun rememberBubbleProperties(
     colors: BubbleSliderColors
 ) = remember(key) {
     BubbleProperties(
-        radius = radius,
-        flyHeight = Random.nextInt(24, 36).dp,
+        sizeProperties = BubbleProperties.SizeProperties(
+            radius = radius,
+            flyHeight = Random.nextInt(BUBBLE_FLY_HEIGHT_MIN, BUBBLE_FLY_HEIGHT_MAX).dp,
+            bubbleSizeBaseDivisor = Random.nextInt(BUBBLE_SIZE_BASE_DIVISOR_MIN, BUBBLE_SIZE_BASE_DIVISOR_MAX),
+            bubbleSizeOscillationFactor = Random.nextInt(BUBBLE_SIZE_OSCILLATION_FACTOR_MIN, BUBBLE_SIZE_OSCILLATION_FACTOR_MAX),
+        ),
         waveProperties = BubbleProperties.WaveProperties(
-            waveAmplitude = Random.nextInt(5, 15),
-            waveLength = Math.PI * Random.nextInt(1, 3),
+            waveAmplitude = Random.nextInt(BUBBLE_WAVE_AMPLITUDE_MIN, BUBBLE_WAVE_AMPLITUDE_MAX),
+            waveLength = Math.PI * Random.nextInt(BUBBLE_WAVE_LENGTH_MIN, BUBBLE_WAVE_LENGTH_MAX),
             isWaveForward = Random.nextBoolean(),
         ),
         colors = colors
@@ -54,14 +57,16 @@ internal fun DrawScope.drawBubble(
     bubbleProgress: Float,
     properties: BubbleProperties,
 ) {
-    val bubbleMultiplier = 4 - 2 * abs(sin(bubbleProgress * Math.PI.toFloat()))
-    val bubbleSize: Dp = properties.radius / bubbleMultiplier
+    val bubbleSizeDivisor = properties.sizeProperties.bubbleSizeBaseDivisor -
+            properties.sizeProperties.bubbleSizeOscillationFactor *
+            abs(sin(bubbleProgress * Math.PI.toFloat()))
+    val bubbleSize: Dp = properties.sizeProperties.radius / bubbleSizeDivisor
 
     val x = sliderProgress +
             (if (properties.waveProperties.isWaveForward) 1 else -1) *
             properties.waveProperties.waveAmplitude *
             sin(bubbleProgress * properties.waveProperties.waveLength).toFloat()
-    val y = -(properties.flyHeight * bubbleProgress).toPx()
+    val y = -(properties.sizeProperties.flyHeight * bubbleProgress).toPx()
 
     drawCircle(
         color = properties.colors.thumbColor.copy(alpha = 1 - bubbleProgress),
