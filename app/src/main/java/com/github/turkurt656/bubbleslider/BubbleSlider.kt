@@ -41,7 +41,7 @@ fun BubbleSlider(
     onValueChangeFinished: (() -> Unit)? = null,
     colors: BubbleSliderColors = BubbleSliderDefaults.colors(),
     trackThickness: Dp = 6.dp,
-    thumbSize: Dp = 12.dp,
+    thumbSize: Dp = 16.dp,
 ) {
     val componentHeight = max(trackThickness, thumbSize)
     var componentWidth = 0f
