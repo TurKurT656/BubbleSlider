@@ -1,7 +1,6 @@
 package com.github.turkurt656.bubbleslider
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
@@ -30,6 +29,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import kotlinx.coroutines.delay
+import kotlin.random.Random
 
 @Composable
 fun BubbleSlider(
@@ -59,7 +59,7 @@ fun BubbleSlider(
             }
             while (isPressed) {
                 bubbleCount += 1
-                delay(BUBBLE_INTERVAL) // Create new bubble every [BUBBLE_INTERVAL]ms
+                delay(Random.nextLong(BUBBLE_INTERVAL_MIN, BUBBLE_INTERVAL_MAX))
             }
         }
 
@@ -89,32 +89,13 @@ fun BubbleSlider(
 
         val allowedValue = value.coerceIn(valueRange.start, valueRange.endInclusive)
 
-        // Bubbles
-        repeat(bubbleCount) { index ->
-
-            val bubbleProgress = remember(index) { Animatable(0f) }
-            LaunchedEffect(index) {
-                bubbleProgress.animateTo(
-                    targetValue = 1f,
-                    animationSpec = tween(
-                        BUBBLE_ANIMATION_DURATION.toInt(),
-                        easing = FastOutLinearInEasing
-                    ),
-                )
-            }
-
-            Canvas(
-                modifier = Modifier.fillMaxSize(),
-                onDraw = {
-                    drawBubble(
-                        calculateProgress(allowedValue, valueRange),
-                        bubbleProgress.value,
-                        thumbSize / 2,
-                        colors,
-                    )
-                }
-            )
-        }
+        Bubbles(
+            value = allowedValue,
+            valueRange = valueRange,
+            bubbleCount = bubbleCount,
+            radius = thumbSize / 2,
+            colors = colors,
+        )
 
         Canvas(
             modifier = Modifier
