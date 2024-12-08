@@ -40,7 +40,7 @@ fun BubbleSlider(
     valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
     onValueChangeFinished: (() -> Unit)? = null,
     colors: BubbleSliderColors = BubbleSliderDefaults.colors(),
-    trackThickness: Dp = 6.dp,
+    trackThickness: Dp = 8.dp,
     thumbSize: Dp = 16.dp,
 ) {
     val componentHeight = max(trackThickness, thumbSize)
