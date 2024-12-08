@@ -67,15 +67,9 @@ fun BubbleSlider(
         var velocity by remember { mutableFloatStateOf(0f) }
         val velocityAnimation = remember { Animatable(initialValue = velocity) }
         LaunchedEffect(key1 = velocity) {
-            velocityAnimation.animateTo(
-                velocity,
-                animationSpec = tween(300, easing = LinearEasing)
-            )
+            velocityAnimation.animateTo(velocity, tween(250, easing = LinearEasing))
             if (velocity == 0f) return@LaunchedEffect
-            velocityAnimation.animateTo(
-                0f,
-                animationSpec = tween(200, easing = LinearEasing)
-            )
+            velocityAnimation.animateTo(0f, tween(250, easing = LinearEasing))
         }
 
         val thumbRadius by animateDpAsState(
