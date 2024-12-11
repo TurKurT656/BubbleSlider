@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                     Text(
                         modifier = modifier,
                         textAlign = TextAlign.Center,
-                        text = "Current value: $value",
+                        text = "Current value: ${"%.2f".format(value)}",
                         style = MaterialTheme.typography.bodyMedium,
                     )
 
