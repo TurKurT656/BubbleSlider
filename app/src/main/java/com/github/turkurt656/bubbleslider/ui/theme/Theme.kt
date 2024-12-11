@@ -1,6 +1,5 @@
 package com.github.turkurt656.bubbleslider.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
