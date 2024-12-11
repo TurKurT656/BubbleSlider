@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     val modifier = Modifier
-                        .padding(horizontal = 112.dp, vertical = 24.dp)
+                        .padding(horizontal = 96.dp, vertical = 16.dp)
                         .fillMaxWidth()
 
                     val valueRange = 0f..100f
@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
                         modifier = modifier,
                         text = "Material3 Slider vs Bubble Slider",
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.headlineSmall,
+                        style = MaterialTheme.typography.titleLarge,
                     )
 
                     Text(
