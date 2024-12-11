@@ -7,9 +7,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -19,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.github.turkurt656.bubbleslider.BubbleSlider
 import com.github.turkurt656.bubbleslider.BubbleSliderDefaults
@@ -48,10 +50,24 @@ class MainActivity : ComponentActivity() {
                     }
 
                     val modifier = Modifier
-                        .padding(24.dp)
-                        .width(220.dp)
+                        .padding(horizontal = 112.dp, vertical = 24.dp)
+                        .fillMaxWidth()
 
-                    val valueRange = 60f..100f
+                    val valueRange = 0f..100f
+
+                    Text(
+                        modifier = modifier,
+                        text = "Material3 Slider vs Bubble Slider",
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.headlineSmall,
+                    )
+
+                    Text(
+                        modifier = modifier,
+                        textAlign = TextAlign.Center,
+                        text = "Current value: $value",
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
 
                     Slider(
                         modifier = modifier,
