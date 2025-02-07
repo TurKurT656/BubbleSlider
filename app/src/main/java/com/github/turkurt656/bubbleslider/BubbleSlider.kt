@@ -43,10 +43,8 @@ fun BubbleSlider(
     trackThickness: Dp = 8.dp,
     thumbSize: Dp = 16.dp,
 ) {
-    val componentHeight = max(trackThickness, thumbSize)
     var componentWidth = 0f
-
-    Box(modifier = modifier.height(componentHeight)) {
+    Box(modifier = modifier.height(max(trackThickness, thumbSize))) {
 
         var isPressed by remember { mutableStateOf(false) }
 
