@@ -74,9 +74,5 @@ private fun lerp(start: Float, stop: Float, amount: Float): Float {
     return start + (stop - start) * amount
 }
 
-private operator fun FloatArray.times(m: Float): FloatArray {
-    for (i in indices) {
-        this[i] *= m
-    }
-    return this
-}
+private operator fun FloatArray.times(m: Float): FloatArray =
+    FloatArray(size) { this[it] * m }
