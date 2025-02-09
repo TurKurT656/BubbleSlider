@@ -32,24 +32,31 @@ internal fun DrawScope.drawDrop(
     val pathRadius = 172f
     val velocityFraction = abs(velocity) / 4 // velocity between 0..1 = 0..VELOCITY_MAX
     val ratio = radius / (pathRadius)
-    val a = lerp(0f, 80f, velocityFraction)
-    val b = lerp(100f, 20f, velocityFraction)
-    val c = lerp(pathRadius, 340f, velocityFraction)
-    val d = lerp(100f, 140f, velocityFraction)
-    val pathWidth = c + pathRadius
-    val centerNew = Offset(center.x - pathWidth * ratio / 2, center.y)
+    val z = pathRadius / 2
+    val a = lerp(0f, pathRadius, velocityFraction)
+    val b = lerp(z, z / 4, velocityFraction)
+    val t = lerp(pathRadius, pathRadius * 3, velocityFraction)
+    val d = lerp(z, pathRadius * 3 / 4, velocityFraction)
+    val pathWidth = t + pathRadius
+    val m = floatArrayOf(
+        // X1, Y1, X2, Y2, X3, Y3
+        a, -b, t - d, -pathRadius, t, -pathRadius,
+        t + z, -pathRadius, pathWidth, -z, pathWidth, 0f,
+        pathWidth, z, t + z, pathRadius, t, pathRadius,
+        t - d, pathRadius, a, b, 0f, 0f,
+    ) * ratio
     val dropPath = Path().apply {
-        moveTo(0f * ratio, 0f * ratio)
-        cubicTo(a * ratio, -b * ratio, (c - d) * ratio, -pathRadius * ratio, c * ratio, -pathRadius * ratio)
-        cubicTo((c + 100) * ratio, -pathRadius * ratio, pathWidth * ratio, (-100f) * ratio, pathWidth * ratio, 0f * ratio)
-        cubicTo(pathWidth * ratio, 100f * ratio, (c + 100) * ratio, pathRadius * ratio, c * ratio, pathRadius * ratio)
-        cubicTo((c - d) * ratio, pathRadius * ratio, a * ratio, b * ratio, 0f * ratio, 0f * ratio)
+        moveTo(0f, 0f)
+        cubicTo(m[0], m[1], m[2], m[3], m[4], m[5])
+        cubicTo(m[6], m[7], m[8], m[9], m[10], m[11])
+        cubicTo(m[12], m[13], m[14], m[15], m[16], m[17])
+        cubicTo(m[18], m[19], m[20], m[21], m[22], m[23])
         close()
     }
     withTransform(
         {
             scale(scaleX = if (velocity < 0) -1f else 1f, scaleY = 1f, pivot = center)
-            translate(centerNew.x, centerNew.y)
+            translate(center.x - pathWidth * ratio / 2, center.y)
         }) {
         drawPath(path = dropPath, color = color)
     }
@@ -64,4 +71,11 @@ internal fun DrawScope.drawDrop(
  */
 private fun lerp(start: Float, stop: Float, amount: Float): Float {
     return start + (stop - start) * amount
+}
+
+private operator fun FloatArray.times(m: Float): FloatArray {
+    for (i in indices) {
+        this[i] *= m
+    }
+    return this
 }
