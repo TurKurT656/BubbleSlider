@@ -117,28 +117,26 @@ fun BubbleSlider(
                     startDragImmediately = true,
                 ),
             onDraw = {
-                val canvasWidth = size.width
-                val canvasHeight = size.height
-                componentWidth = canvasWidth
-                val progress = calculateProgress(allowedValue, valueRange)
+                componentWidth = size.width
+                val progress = inverseLerp(valueRange.start, valueRange.endInclusive, allowedValue) * size.width
 
                 drawLine(
-                    start = Offset(x = 0f, y = canvasHeight / 2),
-                    end = Offset(x = canvasWidth, y = canvasHeight / 2),
+                    start = Offset(x = 0f, y = size.height / 2),
+                    end = Offset(x = size.width, y = size.height / 2),
                     color = colors.trackColor(enabled, false),
                     strokeWidth = trackThickness.toPx(),
                     cap = StrokeCap.Round
                 )
                 drawLine(
-                    start = Offset(x = 0f, y = canvasHeight / 2),
-                    end = Offset(x = progress, y = canvasHeight / 2),
+                    start = Offset(x = 0f, y = size.height / 2),
+                    end = Offset(x = progress, y = size.height / 2),
                     color = colors.trackColor(enabled, true),
                     strokeWidth = trackThickness.toPx(),
                     cap = StrokeCap.Round
                 )
                 drawDrop(
                     color = colors.thumbColor(enabled),
-                    center = Offset(x = progress, y = canvasHeight / 2),
+                    center = Offset(x = progress, y = size.height / 2),
                     radius = thumbRadius.toPx(),
                     velocity = velocityAnimation.value,
                 )

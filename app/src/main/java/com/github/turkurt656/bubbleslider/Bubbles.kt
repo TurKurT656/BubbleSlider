@@ -42,7 +42,7 @@ fun Bubbles(
             modifier = Modifier.fillMaxSize(),
             onDraw = {
                 drawBubble(
-                    sliderProgress = calculateProgress(value, valueRange),
+                    sliderProgress = inverseLerp(valueRange.start, valueRange.endInclusive, value) * size.width,
                     bubbleProgress = bubbleProgress.value,
                     properties = properties,
                 )
