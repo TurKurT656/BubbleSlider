@@ -30,20 +30,19 @@ internal fun DrawScope.drawDrop(
         z
 
     */
-    val pathRadius = 172f
-    val ratio = radius / (pathRadius)
-    val z = pathRadius / 2
-    val a = lerp(0f, pathRadius, abs(velocity))
-    val b = lerp(z, z / 4, abs(velocity))
-    val t = lerp(pathRadius, pathRadius * 3, abs(velocity))
-    val d = lerp(z, pathRadius * 3 / 4, abs(velocity))
-    val pathWidth = t + pathRadius
+    val r = 172f
+    val ratio = radius / r
+    val hand1x = lerp(0f, r, abs(velocity))
+    val hand1y = lerp(r / 2, r / 8, abs(velocity))
+    val tail = lerp(r, 3 * r, abs(velocity))
+    val hand2 = lerp(r / 2, 3 * r / 4, abs(velocity))
+    val width = tail + r
     val m = floatArrayOf(
         // X1, Y1, X2, Y2, X3, Y3
-        a, -b, t - d, -pathRadius, t, -pathRadius,
-        t + z, -pathRadius, pathWidth, -z, pathWidth, 0f,
-        pathWidth, z, t + z, pathRadius, t, pathRadius,
-        t - d, pathRadius, a, b, 0f, 0f,
+        hand1x, -hand1y, tail - hand2, -r, tail, -r,
+        tail + (r / 2), -r, width, -(r / 2), width, 0f,
+        width, r / 2, tail + (r / 2), r, tail, r,
+        tail - hand2, r, hand1x, hand1y, 0f, 0f,
     ) * ratio
     val dropPath = Path().apply {
         moveTo(0f, 0f)
@@ -56,7 +55,7 @@ internal fun DrawScope.drawDrop(
     withTransform(
         {
             scale(scaleX = if (velocity < 0) -1f else 1f, scaleY = 1f, pivot = center)
-            translate(center.x - pathWidth * ratio / 2, center.y)
+            translate(center.x - width * ratio / 2, center.y)
         }) {
         drawPath(path = dropPath, color = color)
     }
