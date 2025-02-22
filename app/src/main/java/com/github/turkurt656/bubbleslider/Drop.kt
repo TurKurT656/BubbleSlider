@@ -31,13 +31,12 @@ internal fun DrawScope.drawDrop(
 
     */
     val pathRadius = 172f
-    val velocityFraction = abs(velocity) / 4 // velocity between 0..1 = 0..VELOCITY_MAX
     val ratio = radius / (pathRadius)
     val z = pathRadius / 2
-    val a = lerp(0f, pathRadius, velocityFraction)
-    val b = lerp(z, z / 4, velocityFraction)
-    val t = lerp(pathRadius, pathRadius * 3, velocityFraction)
-    val d = lerp(z, pathRadius * 3 / 4, velocityFraction)
+    val a = lerp(0f, pathRadius, abs(velocity))
+    val b = lerp(z, z / 4, abs(velocity))
+    val t = lerp(pathRadius, pathRadius * 3, abs(velocity))
+    val d = lerp(z, pathRadius * 3 / 4, abs(velocity))
     val pathWidth = t + pathRadius
     val m = floatArrayOf(
         // X1, Y1, X2, Y2, X3, Y3

@@ -100,7 +100,7 @@ fun BubbleSlider(
                         val timeSinceLastDrag = currentTime - lastDragTime
                         // Ignore very rapid changes
                         if (timeSinceLastDrag > 100L) {
-                            velocity = delta.coerceIn(-8f, 8f) * 0.5f
+                            velocity = delta.coerceIn(-8f, 8f) / 8f
                             lastDragTime = currentTime
                         }
                         val deltaAsValue = (delta * valueRange.range / componentWidth)
